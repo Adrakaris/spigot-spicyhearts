@@ -1,0 +1,8 @@
+name: "SpicyHearts"
+main: "com.bocbin.SpicyHearts.Main"
+version: "1.0.0"
+author: "Bocbin"
+api-version: "1.16"
+
+commands:
+  Veryspicy:

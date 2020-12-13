@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SpicyHearts">
+    <output-path>$PROJECT_DIR$/out/artifacts/SpicyHearts</output-path>
+    <root id="archive" name="SpicyHearts.jar">
+      <element id="module-output" name="SpicyHearts" />
+    </root>
+  </artifact>
+</component>
