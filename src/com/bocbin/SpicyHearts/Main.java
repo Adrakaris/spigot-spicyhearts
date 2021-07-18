@@ -7,13 +7,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.Potion;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -88,8 +86,10 @@ public class Main extends JavaPlugin implements Listener {
         // set the max health and health of a player, starting from 1 instead of 0
         double foodsEaten = (double) playerFoodsEaten.get(playerID).size() + 1;
         // this is set to the no. of foods eaten
+
         player.setMaxHealth(foodsEaten);
         player.setHealth(Math.max(foodsEaten, player.getHealth()));  // the players will not gain health w/ health increase
+
     }
 
     @EventHandler
@@ -101,7 +101,10 @@ public class Main extends JavaPlugin implements Listener {
             playerFoodsEaten.put(playerID, new HashSet<Material>());  // add player ID
         }
 
-        updatePlayerHealth(player);
+        // we should only set it if the player does not rejoin from a death, else it would break the death process, so to say.
+        // other case we wait for a playerrespawnevent
+        // getLogger().info("Player health update: current health " + player.getHealth());
+        if (player.getHealth() > 0) updatePlayerHealth(player);
     }
 
     @EventHandler

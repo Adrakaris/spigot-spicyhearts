@@ -1,5 +1,6 @@
 package com.bocbin.SpicyHearts;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
@@ -38,6 +39,7 @@ public class Data implements Serializable {
             GZIPOutputStream gzOut = new GZIPOutputStream(fileOut);
             BukkitObjectOutputStream out = new BukkitObjectOutputStream(gzOut);
 
+            printDetails(this);
             out.writeObject(this);
             out.close();
             return true;
@@ -53,10 +55,17 @@ public class Data implements Serializable {
 
             Data data = (Data) in.readObject();
             in.close();
+            printDetails(data);
             return data;
         } catch (IOException | ClassNotFoundException e) {
             // e.printStackTrace();
             return null;
         }
+    }
+
+    public static void printDetails(Data dat) {
+        Bukkit.getLogger().info("Current Server Status:");
+        Bukkit.getLogger().info("Very spicy? " + dat.verySpicy);
+        Bukkit.getLogger().info(dat.playerFoodsEaten.toString());
     }
 }
