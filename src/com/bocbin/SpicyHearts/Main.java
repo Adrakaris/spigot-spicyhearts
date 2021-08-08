@@ -88,7 +88,7 @@ public class Main extends JavaPlugin implements Listener {
         // this is set to the no. of foods eaten
 
         player.setMaxHealth(foodsEaten);
-        player.setHealth(Math.max(foodsEaten, player.getHealth()));  // the players will not gain health w/ health increase
+        player.setHealth(Math.min(foodsEaten, player.getHealth()));  // the players will not gain health w/ health increase
 
     }
 
