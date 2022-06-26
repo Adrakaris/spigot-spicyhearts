@@ -1,8 +1,10 @@
 name: "SpicyHearts"
 main: "com.bocbin.SpicyHearts.Main"
-version: "1.0.0"
+version: "1.1.0"
 author: "Bocbin"
 api-version: "1.16"
 
 commands:
   Veryspicy:
+  Foodlist:
+  Foodlist_all:

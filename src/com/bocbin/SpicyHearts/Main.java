@@ -1,7 +1,10 @@
 package com.bocbin.SpicyHearts;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -13,10 +16,8 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.text.MessageFormat;
+import java.util.*;
 
 public class Main extends JavaPlugin implements Listener {
 
@@ -67,6 +68,7 @@ public class Main extends JavaPlugin implements Listener {
 
             if (args.length != 1) {
                 sender.sendMessage(ChatColor.RED + "Usage: /verySpicy <true/false>");
+                return false;
             }
 
             if (args[0].equalsIgnoreCase("true")) {
@@ -76,6 +78,33 @@ public class Main extends JavaPlugin implements Listener {
                 verySpicy = false;
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Very spicy mode &2DISABLED"));
             }
+
+            return true;
+        } else if (label.equalsIgnoreCase("foodlist") && sender.isOp()) {
+            if (!(sender instanceof Player)) {
+                sender.sendMessage(ChatColor.RED + "Not a player");
+                return false;
+            }
+
+            UUID playerKey = ((Player) sender).getUniqueId();
+
+            String eaten = playerFoodsEaten.get(playerKey).toString();
+            sender.sendMessage("Eaten: " + eaten);
+
+            return true;
+        } else if (label.equalsIgnoreCase("foodlist_all")) {
+            if (!(sender instanceof Player)) {
+                sender.sendMessage(ChatColor.RED + "Not a player");
+                return false;
+            }
+
+            for (Map.Entry<UUID, Set<Material>> entry : playerFoodsEaten.entrySet()) {
+                String key = entry.getKey().toString().substring(0, 8) + "...";
+                String eaten = entry.getValue().toString();
+
+                sender.sendMessage(ChatColor.GOLD + key + ChatColor.RESET + ": " + eaten);
+            }
+            return true;
         }
 
         return false;
@@ -87,7 +116,9 @@ public class Main extends JavaPlugin implements Listener {
         double foodsEaten = (double) playerFoodsEaten.get(playerID).size() + 1;
         // this is set to the no. of foods eaten
 
-        player.setMaxHealth(foodsEaten);
+        // setmaxhealth is disabled so have to replace
+        player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(foodsEaten);
+
         player.setHealth(Math.min(foodsEaten, player.getHealth()));  // the players will not gain health w/ health increase
 
     }
